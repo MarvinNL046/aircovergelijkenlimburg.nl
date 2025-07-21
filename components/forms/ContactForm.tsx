@@ -5,9 +5,12 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Send } from 'lucide-react';
-import { sendEmail } from '@/lib/emailjs';
+import { sendEmail } from '@/src/utils/email';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function ContactForm() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -31,12 +34,25 @@ export default function ContactForm() {
     setStatus('sending');
 
     try {
-      await sendEmail(formData);
+      await sendEmail({
+        ...formData,
+        city: 'Limburg'
+      });
       setStatus('success');
+      
+      toast.success('Uw aanvraag is succesvol verzonden!');
+      
+      // Reset form
       setFormData({ name: '', email: '', phone: '', message: '' });
+      
+      // Redirect to thank you page after a short delay
+      setTimeout(() => {
+        router.push('/tot-snel');
+      }, 1000);
     } catch (error) {
       console.error('Error:', error);
       setStatus('error');
+      toast.error('Er ging iets mis. Probeer het later opnieuw.');
     }
   };
 

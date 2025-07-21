@@ -6,9 +6,11 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
-import { sendEmail } from "@/lib/emailjs"
+import { sendEmail } from "@/src/utils/email"
+import { useRouter } from "next/navigation"
 
 export function ContactForm() {
+  const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
@@ -22,14 +24,25 @@ export function ContactForm() {
     setIsSubmitting(true)
 
     try {
-      await sendEmail(formData)
+      await sendEmail({
+        ...formData,
+        city: "Limburg"
+      })
+      
       toast.success("Uw aanvraag is succesvol verzonden!")
+      
+      // Reset form
       setFormData({
         name: "",
         email: "",
         phone: "",
         message: "",
       })
+      
+      // Redirect to thank you page after a short delay
+      setTimeout(() => {
+        router.push('/tot-snel')
+      }, 1000)
     } catch (error) {
       toast.error("Er ging iets mis. Probeer het later opnieuw.")
     } finally {
