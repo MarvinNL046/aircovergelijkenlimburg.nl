@@ -20,6 +20,26 @@ export interface EmailData {
   message: string;
 }
 
+// Analytics tracking helpers
+export const trackFormSubmission = (formType: string, success: boolean) => {
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('event', 'form_submission', {
+      form_type: formType,
+      success: success,
+      timestamp: new Date().toISOString()
+    });
+  }
+};
+
+export const trackPixelFormSubmission = (formType: string, success: boolean) => {
+  if (typeof window !== 'undefined' && (window as any).fbq) {
+    (window as any).fbq('track', 'Lead', {
+      content_name: formType,
+      status: success ? 'completed' : 'failed'
+    });
+  }
+};
+
 // Send data via EmailJS
 const sendViaEmailJS = async (data: EmailData): Promise<boolean> => {
   try {
@@ -55,8 +75,21 @@ const sendViaEmailJS = async (data: EmailData): Promise<boolean> => {
   }
 };
 
+// Track webhook performance
+const trackWebhookPerformance = (success: boolean, responseTime: number) => {
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('event', 'webhook_performance', {
+      success: success,
+      response_time: responseTime,
+      timestamp: Date.now()
+    });
+  }
+};
+
 // Send data to GoHighLevel webhook
 const sendToWebhook = async (data: EmailData): Promise<boolean> => {
+  const startTime = Date.now();
+  
   try {
     if (DEBUG_MODE) {
       console.log('Sending to webhook:', data);
@@ -75,13 +108,17 @@ const sendToWebhook = async (data: EmailData): Promise<boolean> => {
     const response = await fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(webhookData)
     });
 
+    const responseTime = Date.now() - startTime;
+
     if (DEBUG_MODE) {
       console.log('Webhook response status:', response.status);
+      console.log('Response time:', responseTime, 'ms');
       const responseText = await response.text();
       console.log('Webhook response body:', responseText);
     }
@@ -90,11 +127,16 @@ const sendToWebhook = async (data: EmailData): Promise<boolean> => {
       if (DEBUG_MODE) {
         console.error('Webhook error: Status', response.status);
       }
+      trackWebhookPerformance(false, responseTime);
       return false;
     }
     
+    trackWebhookPerformance(true, responseTime);
     return true;
   } catch (error) {
+    const responseTime = Date.now() - startTime;
+    trackWebhookPerformance(false, responseTime);
+    
     if (DEBUG_MODE) {
       console.error('Webhook error:', error);
     }
@@ -103,35 +145,42 @@ const sendToWebhook = async (data: EmailData): Promise<boolean> => {
 };
 
 // Main send function that tries both methods
-export const sendEmail = async (data: EmailData): Promise<void> => {
+export const sendEmail = async (data: EmailData, formType: string = 'contact_form'): Promise<void> => {
   if (DEBUG_MODE) {
-    console.log('Starting dual submission with data:', data);
+    console.log('📧 Starting dual submission:', data);
   }
 
-  // Send to both services in parallel for better performance
+  // Execute both submissions in parallel
   const [emailJSSuccess, webhookSuccess] = await Promise.all([
     sendViaEmailJS(data),
     sendToWebhook(data)
   ]);
 
   if (DEBUG_MODE) {
-    console.log('EmailJS success:', emailJSSuccess);
-    console.log('Webhook success:', webhookSuccess);
-  }
-  
-  // Only throw error if BOTH methods fail
-  if (!emailJSSuccess && !webhookSuccess) {
-    throw new Error('Failed to send contact form data');
+    console.log('Results - EmailJS:', emailJSSuccess, 'Webhook:', webhookSuccess);
   }
 
-  // Log warnings in debug mode if one service failed
-  if (DEBUG_MODE) {
-    if (!emailJSSuccess && webhookSuccess) {
-      console.warn('EmailJS failed but webhook succeeded');
-    } else if (emailJSSuccess && !webhookSuccess) {
-      console.warn('Webhook failed but EmailJS succeeded');
+  // Success if either method succeeds
+  if (webhookSuccess || emailJSSuccess) {
+    const methods = [];
+    if (webhookSuccess) methods.push('GHL Webhook');
+    if (emailJSSuccess) methods.push('EmailJS');
+    
+    if (DEBUG_MODE) {
+      console.log(`✅ Form submitted successfully via: ${methods.join(' + ')}`);
     }
+    
+    // Track success
+    trackFormSubmission(formType, true);
+    trackPixelFormSubmission(formType, true);
+    
+    return;
   }
+
+  // Both methods failed
+  trackFormSubmission(formType, false);
+  trackPixelFormSubmission(formType, false);
+  throw new Error('Failed to send contact form data through any available method');
 };
 
 // Webhook-only send function for testing

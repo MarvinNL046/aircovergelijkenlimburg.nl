@@ -33,7 +33,7 @@ export function ContactForm({ cityName }: ContactFormProps) {
       await sendEmail({
         ...formData,
         city: cityName || "Limburg"
-      })
+      }, cityName ? 'city_contact_form' : 'contact_form')
       
       // Track analytics (if implemented)
       // trackFormSubmission('contact_form', true)

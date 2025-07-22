@@ -37,7 +37,7 @@ export default function ContactForm() {
       await sendEmail({
         ...formData,
         city: 'Limburg'
-      });
+      }, 'contact_form');
       setStatus('success');
       
       toast.success('Uw aanvraag is succesvol verzonden!');

@@ -27,7 +27,7 @@ export function ContactForm() {
       await sendEmail({
         ...formData,
         city: "Limburg"
-      })
+      }, 'contact_form')
       
       toast.success("Uw aanvraag is succesvol verzonden!")
       
