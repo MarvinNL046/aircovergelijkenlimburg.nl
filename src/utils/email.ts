@@ -100,7 +100,7 @@ const sendToWebhook = async (data: EmailData): Promise<boolean> => {
         name: data.name,
         email: data.email,
         phone: data.phone,
-        city: data.city || 'Not specified',
+        city: data.city || '',
         message: data.message
       }
     };
