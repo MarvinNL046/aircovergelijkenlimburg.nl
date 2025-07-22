@@ -1,7 +1,7 @@
 import emailjs from '@emailjs/browser';
 
 // Debug mode for troubleshooting
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 
 // EmailJS configuration
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_1rruujp';
@@ -48,10 +48,13 @@ const sendViaEmailJS = async (data: EmailData): Promise<boolean> => {
     }
 
     const templateParams = {
+      to_name: 'StayCool Airco Team',
       from_name: data.name,
       from_email: data.email,
       phone: data.phone,
       message: data.message,
+      city: data.city || 'Niet opgegeven',
+      service: '', // Optional service field
       to_email: 'info@staycoolairco.nl',
     };
 
@@ -101,7 +104,19 @@ const sendToWebhook = async (data: EmailData): Promise<boolean> => {
         email: data.email,
         phone: data.phone,
         city: data.city || '',
-        message: data.message
+        message: data.message,
+        source: 'Website - Airco Vergelijken Limburg',
+        pipeline_status: 'new',
+        tags: ['website-lead', 'airco-interesse'],
+        // Extra velden voor GHL
+        contact_source: 'Staycoolairco.nl',
+        vermogen_kw: '2,5 - 4 kW (middelgrote ruimtes)',
+        type_ruimte: 'Woonkamer',
+        telefonisch_bereiken: 'Geen voorkeur',
+        woonplaats_gebied: 'Ja',
+        status_pijplijn_voor_afspraak: 'Nieuwe Lead',
+        aantal_keer_opgebeld: 0,
+        datum_lead_binnen: new Date().toISOString()
       }
     };
 
