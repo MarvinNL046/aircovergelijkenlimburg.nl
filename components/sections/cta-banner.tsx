@@ -9,30 +9,32 @@ interface CTABannerProps {
 }
 
 export function CTABanner({ theme = "light" }: CTABannerProps) {
-  const bgColor = theme === "light" ? "bg-blue-50" : "bg-blue-900"
-  const textColor = theme === "light" ? "text-blue-900" : "text-white"
-  const borderColor = theme === "light" ? "border-blue-100" : "border-blue-800"
+  const bgColor = theme === "light" ? "bg-orange-50" : "bg-gray-900"
+  const textColor = theme === "light" ? "text-gray-900" : "text-white"
+  const borderColor = theme === "light" ? "border-orange-100" : "border-gray-800"
+  const accentColor = theme === "light" ? "text-orange-600" : "text-orange-500"
 
   return (
     <div 
-      className={`${bgColor} ${borderColor} border-y py-3 transform transition-all duration-300`}
+      className={`${bgColor} ${borderColor} border-y py-4 transform transition-all duration-300`}
     >
-      <div className="container">
+      <div className="container-custom">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className={`${textColor} text-sm font-medium`}>
-            <span className="hidden sm:inline">❄️</span> Laat uw airco installeren in Limburg en geniet van een korting tot wel € 250,-!
+          <p className={`${textColor} text-base font-medium flex items-center gap-2`}>
+            <span className={`${accentColor} font-bold`}>AANBIEDING:</span>
+            <span>Onderhoud vanaf €11/mnd • Binnen 24u reactie • 4.7/5 ⭐ (163 reviews)</span>
           </p>
-          <div className="flex flex-wrap gap-2">
-            <Button size="sm" variant="outline" asChild>
+          <div className="flex flex-wrap gap-3">
+            <Button size="sm" variant="outline" className="btn-secondary" asChild>
               <Link href="tel:0462021430">
                 <Phone className="mr-2 h-4 w-4" />
-                Bel Direct
+                046 202 1430
               </Link>
             </Button>
-            <Button size="sm" className="bg-green-600 hover:bg-green-700" asChild>
+            <Button size="sm" className="btn-primary" asChild>
               <Link href="/offerte">
                 <Calendar className="mr-2 h-4 w-4" />
-                Plan Afspraak
+                Gratis Offerte
               </Link>
             </Button>
           </div>

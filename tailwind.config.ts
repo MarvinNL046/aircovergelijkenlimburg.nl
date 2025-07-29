@@ -50,6 +50,27 @@ const config: Config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        // StayCool Design System Colors
+        orange: {
+          500: '#F97316',
+          600: '#EA580C',
+          700: '#C2410C',
+        },
+        blue: {
+          600: '#2563EB',
+          700: '#1D4ED8',
+          800: '#1E3A8A',
+          900: '#1E3A8A',
+        },
+        gray: {
+          50: '#F9FAFB',
+          100: '#F3F4F6',
+          300: '#D1D5DB',
+          600: '#4B5563',
+          700: '#374151',
+          800: '#1F2937',
+          900: '#111827',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',

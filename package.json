@@ -50,6 +50,7 @@
     "dompurify": "^3.0.8",
     "emailjs-com": "^3.2.0",
     "embla-carousel-react": "^8.0.0-rc22",
+    "framer-motion": "^12.23.11",
     "input-otp": "^1.1.0",
     "isomorphic-dompurify": "^1.9.0",
     "lucide-react": "^0.344.0",
