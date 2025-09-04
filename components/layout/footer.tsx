@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { AirVent, Mail, MapPin, Phone } from "lucide-react"
+import { AirVent, Mail, MapPin, Phone, Calendar } from "lucide-react"
 
 const cities = [
   "Maastricht",
@@ -50,6 +50,12 @@ export function Footer() {
               <li className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4" />
                 <span>Heel Limburg</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <Calendar className="h-4 w-4" />
+                <a href="https://afspraken.staycoolairco.nl/" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                  Maak een afspraak
+                </a>
               </li>
             </ul>
           </div>

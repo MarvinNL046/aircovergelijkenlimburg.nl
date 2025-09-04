@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { AirVent, Menu, Phone } from "lucide-react"
+import { AirVent, Menu, Phone, Calendar } from "lucide-react"
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -96,13 +96,32 @@ export function Header() {
                     Offerte Aanvragen
                   </Button>
                 </Link>
+                <a href="https://afspraken.staycoolairco.nl/" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)}>
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    Afspraak Maken
+                  </Button>
+                </a>
               </nav>
             </SheetContent>
           </Sheet>
         </div>
 
         {/* Desktop CTA */}
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex items-center gap-3">
+          <a 
+            href="https://afspraken.staycoolairco.nl/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            <Button 
+              className="bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              aria-label="Maak een afspraak online"
+            >
+              <Calendar className="mr-2 h-4 w-4" />
+              Afspraak Maken
+            </Button>
+          </a>
           <Link href="/offerte">
             <Button 
               className="bg-green-600 hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2"

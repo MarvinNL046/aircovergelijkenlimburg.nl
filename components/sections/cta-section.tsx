@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Phone, Mail } from "lucide-react"
+import { Phone, Mail, Calendar } from "lucide-react"
 import Link from "next/link"
 
 export function CTASection() {
@@ -37,6 +37,12 @@ export function CTASection() {
                   </ul>
                 </div>
                 <div className="flex flex-col justify-center gap-4">
+                  <Button size="lg" className="w-full bg-blue-600 hover:bg-blue-700" asChild>
+                    <a href="https://afspraken.staycoolairco.nl/" target="_blank" rel="noopener noreferrer">
+                      <Calendar className="mr-2 h-4 w-4" />
+                      Direct Afspraak Maken
+                    </a>
+                  </Button>
                   <Button size="lg" className="w-full" asChild>
                     <Link href="/offerte">
                       <Mail className="mr-2 h-4 w-4" />

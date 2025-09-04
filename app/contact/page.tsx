@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import { Breadcrumb } from "@/components/navigation/breadcrumb";
 import ContactForm from '@/components/forms/ContactForm';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail, MapPin, Calendar } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: 'Contact | Airco Offerte Limburg',
@@ -66,6 +67,24 @@ export default function ContactPage() {
                   </a>
                 );
               })}
+            </div>
+
+            <div className="mt-8">
+              <h2 className="text-2xl font-semibold mb-4">Direct een afspraak maken?</h2>
+              <p className="text-gray-600 mb-4">
+                Plan direct online een afspraak met onze specialisten via onze slimme afsprakenplanner.
+              </p>
+              <a 
+                href="https://afspraken.staycoolairco.nl/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center">
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Plan uw afspraak online
+                </Button>
+              </a>
             </div>
 
             <div className="mt-8">

@@ -31,9 +31,14 @@ export function CTABanner({ theme = "light" }: CTABannerProps) {
                 046 202 1430
               </Link>
             </Button>
+            <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
+              <a href="https://afspraken.staycoolairco.nl/" target="_blank" rel="noopener noreferrer">
+                <Calendar className="mr-2 h-4 w-4" />
+                Afspraak Maken
+              </a>
+            </Button>
             <Button size="sm" className="btn-primary" asChild>
               <Link href="/offerte">
-                <Calendar className="mr-2 h-4 w-4" />
                 Gratis Offerte
               </Link>
             </Button>
