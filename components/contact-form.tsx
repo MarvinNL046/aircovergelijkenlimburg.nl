@@ -53,8 +53,8 @@ export function ContactForm({ cityName }: ContactFormProps) {
       
       // Redirect to thank you page after a short delay
       setTimeout(() => {
-        router.push('/tot-snel')
-      }, 1000)
+        window.location.href = 'https://staycoolairco.nl/tot-snel';
+      }, 1500)
     } catch (error) {
       toast.error("Er ging iets mis. Probeer het later opnieuw.")
     } finally {
